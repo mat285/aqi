@@ -3,24 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "VsFGH7AqQu9T+XmIcpRqjrdi4Uk=",
-			"path": "github.com/blend/go-sdk/async",
-			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
-			"revisionTime": "2018-11-12T20:11:15Z"
-		},
-		{
-			"checksumSHA1": "lNPDxoAZNGnk8uaPMPk4jwzCxWI=",
-			"path": "github.com/blend/go-sdk/collections",
-			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
-			"revisionTime": "2018-11-12T20:11:15Z"
-		},
-		{
-			"checksumSHA1": "/zrLVHNmRKES19xXze6D6tnP2sk=",
-			"path": "github.com/blend/go-sdk/cron",
-			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
-			"revisionTime": "2018-11-12T20:11:15Z"
-		},
-		{
 			"checksumSHA1": "o2oxb5TYodjQhPCitGFI6e8/o7E=",
 			"path": "github.com/blend/go-sdk/env",
 			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",

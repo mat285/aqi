@@ -1,8 +1,8 @@
 package main
 
 import (
-	exception "github.com/blendlabs/go-exception"
-	logger "github.com/blendlabs/go-logger"
+	exception "github.com/blend/go-sdk/exception"
+	logger "github.com/blend/go-sdk/logger"
 	"github.com/mat285/aqi/pkg/airvisual"
 	config "github.com/mat285/aqi/pkg/config"
 	"github.com/mat285/aqi/pkg/slack"
