@@ -1,0 +1,67 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "VsFGH7AqQu9T+XmIcpRqjrdi4Uk=",
+			"path": "github.com/blend/go-sdk/async",
+			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
+			"revisionTime": "2018-11-12T20:11:15Z"
+		},
+		{
+			"checksumSHA1": "lNPDxoAZNGnk8uaPMPk4jwzCxWI=",
+			"path": "github.com/blend/go-sdk/collections",
+			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
+			"revisionTime": "2018-11-12T20:11:15Z"
+		},
+		{
+			"checksumSHA1": "/zrLVHNmRKES19xXze6D6tnP2sk=",
+			"path": "github.com/blend/go-sdk/cron",
+			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
+			"revisionTime": "2018-11-12T20:11:15Z"
+		},
+		{
+			"checksumSHA1": "o2oxb5TYodjQhPCitGFI6e8/o7E=",
+			"path": "github.com/blend/go-sdk/env",
+			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
+			"revisionTime": "2018-11-12T20:11:15Z"
+		},
+		{
+			"checksumSHA1": "cWZYZC6IoG2gEV4VZGySDwLxv0U=",
+			"path": "github.com/blend/go-sdk/exception",
+			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
+			"revisionTime": "2018-11-12T20:11:15Z"
+		},
+		{
+			"checksumSHA1": "2fZiojIE5wvrDAHQnVe0/75LaJI=",
+			"path": "github.com/blend/go-sdk/logger",
+			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
+			"revisionTime": "2018-11-12T20:11:15Z"
+		},
+		{
+			"checksumSHA1": "squ8Jo32YPb6Vt8glV7iC5NsexE=",
+			"path": "github.com/blend/go-sdk/request",
+			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
+			"revisionTime": "2018-11-12T20:11:15Z"
+		},
+		{
+			"checksumSHA1": "JboOfIoQm5Ug5w2CZtNFxdyV48Y=",
+			"path": "github.com/blend/go-sdk/util",
+			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
+			"revisionTime": "2018-11-12T20:11:15Z"
+		},
+		{
+			"checksumSHA1": "8dUJ/cObxjLRfijGxf7c1Wv9Hto=",
+			"path": "github.com/blend/go-sdk/webutil",
+			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
+			"revisionTime": "2018-11-12T20:11:15Z"
+		},
+		{
+			"checksumSHA1": "hPUTgh/12ahfqumgsauofbnbx+Q=",
+			"path": "github.com/blendlabs/go-exception",
+			"revision": "9dae8754a473cc68abd8362fbca5c523e98426d2",
+			"revisionTime": "2018-03-31T18:22:19Z"
+		}
+	],
+	"rootPath": "github.com/mat285/aqi"
+}
