@@ -6,5 +6,5 @@ ENV APP_ROOT=/go/src/${APP_PATH}
 
 ADD . ${APP_ROOT}/.
 
-RUN go install ${APP_PATH}
-ENTRYPOINT ["/go/bin/aqi"]
+RUN go install ${APP_PATH}/job
+ENTRYPOINT ["/go/bin/job"]
