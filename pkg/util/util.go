@@ -14,7 +14,7 @@ import (
 const (
 	SlackUsername  = "AQI Bot"
 	HealthyEmoji   = ":slightly_smiling_face:"
-	UnhealthyEmoji = ":mask"
+	UnhealthyEmoji = ":mask:"
 	ToxicEmoji     = ":skull_and_crossbones:"
 )
 
