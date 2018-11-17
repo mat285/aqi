@@ -8,6 +8,10 @@ import (
 	request "github.com/blend/go-sdk/request"
 )
 
+const (
+	ResponseTypeInChannel = "in_channel"
+)
+
 // Message is a message sent to slack.
 type Message struct {
 	ResponseType string `json:"response_type,omitempty"`

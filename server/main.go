@@ -48,7 +48,7 @@ func main() {
 func handle(r *web.Ctx) web.Result {
 	aqi, err := util.FetchAQI(conf, util.SanFranciscoAirVisualRequest(), r.Logger())
 	if err != nil {
-		return r.Text().InternalError(err)
+		return r.JSON().InternalError(err)
 	}
-	return r.Text().Result(util.SlackMessageText(aqi))
+	return r.JSON().Result(util.AQISlackMessage(aqi))
 }

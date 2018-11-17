@@ -43,6 +43,16 @@ func SanFranciscoAirVisualRequest() *airvisual.LocationRequest {
 	}
 }
 
+// AQISlackMessage returns the message to send back for the aqi to slack
+func AQISlackMessage(aqi int) *slack.Message {
+	return &slack.Message{
+		Username:     SlackUsername,
+		Text:         SlackMessageText(aqi),
+		IconEmoji:    EmojiForAQI(aqi),
+		ResponseType: slack.ResponseTypeInChannel,
+	}
+}
+
 // FetchAQI fetches the aqi from airvisual
 func FetchAQI(c *config.Config, req *airvisual.LocationRequest, log *logger.Logger) (int, error) {
 	client := airvisual.New(c.AirVisualAPIKey)
@@ -67,11 +77,7 @@ func FetchAndSendAQIForConfig(c *config.Config, req *airvisual.LocationRequest, 
 
 	channel := c.GetSlackChannel("slack-bot-test")
 	log.SyncInfof("Notifying slack channel `%s`", channel)
-	message := &slack.Message{
-		Username:  SlackUsername,
-		Text:      SlackMessageText(aqi),
-		IconEmoji: EmojiForAQI(aqi),
-		Channel:   channel,
-	}
+	message := AQISlackMessage(aqi)
+	message.Channel = channel
 	return aqi, slack.Notify(c.SlackWebhook, message)
 }
