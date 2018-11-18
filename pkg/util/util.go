@@ -21,9 +21,7 @@ const (
 )
 
 var (
-	BlockedUsers = map[string]bool{
-		"UCSLCL61X": true,
-	}
+	BlockedUsers = map[string]bool{}
 )
 
 // IsBlocked returns if the user is blocked
