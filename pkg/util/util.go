@@ -16,7 +16,26 @@ const (
 	HealthyEmoji   = ":slightly_smiling_face:"
 	UnhealthyEmoji = ":mask:"
 	ToxicEmoji     = ":skull_and_crossbones:"
+
+	CigarettesPerAQI = 0.04631
 )
+
+var (
+	BlockedUsers = map[string]bool{
+		"UCSLCL61X": true,
+	}
+)
+
+// IsBlocked returns if the user is blocked
+func IsBlocked(user string) bool {
+	blocked, ok := BlockedUsers[user]
+	return ok && blocked
+}
+
+// NumCigarettes returns the number of cigarettes for the aqi
+func NumCigarettes(aqi int) float32 {
+	return float32(aqi) * CigarettesPerAQI
+}
 
 // EmojiForAQI returns the appropriate emohi for the aqi
 func EmojiForAQI(aqi int) string {
@@ -41,6 +60,20 @@ func SanFranciscoAirVisualRequest() *airvisual.LocationRequest {
 		State:   "California",
 		Country: "USA",
 	}
+}
+
+// BlockedSlackMessage returns the message to a blocked user
+func BlockedSlackMessage() *slack.Message {
+	m := AQISlackMessage(-1)
+	m.Text = "no"
+	return m
+}
+
+// CigarettesSlackMessage returns the message for cigarettes
+func CigarettesSlackMessage(aqi int) *slack.Message {
+	m := AQISlackMessage(aqi)
+	m.Text = fmt.Sprintf("Number of cigarettes: `%03f`", NumCigarettes(aqi))
+	return m
 }
 
 // AQISlackMessage returns the message to send back for the aqi to slack

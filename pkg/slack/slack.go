@@ -10,6 +10,9 @@ import (
 
 const (
 	ResponseTypeInChannel = "in_channel"
+
+	ParamTextKey   = "text"
+	ParamUserIDKey = "user_id"
 )
 
 // Message is a message sent to slack.

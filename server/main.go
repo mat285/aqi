@@ -8,6 +8,7 @@ import (
 	logger "github.com/blend/go-sdk/logger"
 	web "github.com/blend/go-sdk/web"
 	"github.com/mat285/aqi/pkg/config"
+	"github.com/mat285/aqi/pkg/slack"
 	"github.com/mat285/aqi/pkg/util"
 )
 
@@ -46,9 +47,17 @@ func main() {
 }
 
 func handle(r *web.Ctx) web.Result {
+	user := web.StringValue(r.Param(slack.ParamUserIDKey))
+	text := web.StringValue(r.Param(slack.ParamTextKey))
+	if util.IsBlocked(user) {
+		return r.JSON().Result(util.BlockedSlackMessage())
+	}
 	aqi, err := util.FetchAQI(conf, util.SanFranciscoAirVisualRequest(), r.Logger())
 	if err != nil {
 		return r.JSON().InternalError(err)
+	}
+	if text == "cigarettes" {
+		return r.JSON().Result(util.CigarettesSlackMessage(aqi))
 	}
 	return r.JSON().Result(util.AQISlackMessage(aqi))
 }
