@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	logger "github.com/blend/go-sdk/logger"
@@ -49,14 +50,14 @@ func main() {
 func handle(r *web.Ctx) web.Result {
 	user := web.StringValue(r.Param(slack.ParamUserIDKey))
 	text := web.StringValue(r.Param(slack.ParamTextKey))
-	if util.IsBlocked(user) {
+	if util.IsBlocked(user) && !strings.Contains(text, "please") {
 		return r.JSON().Result(util.BlockedSlackMessage())
 	}
 	aqi, err := util.FetchAQI(conf, util.SanFranciscoAirVisualRequest(), r.Logger())
 	if err != nil {
 		return r.JSON().InternalError(err)
 	}
-	if text == "cigarettes" {
+	if strings.Contains(text, "cigarettes") {
 		return r.JSON().Result(util.CigarettesSlackMessage(aqi))
 	}
 	return r.JSON().Result(util.AQISlackMessage(aqi))
