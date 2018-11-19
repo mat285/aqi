@@ -3,8 +3,8 @@ package airvisual
 import (
 	"fmt"
 
-	exception "github.com/blendlabs/go-exception"
-	request "github.com/blendlabs/go-request"
+	exception "github.com/blend/go-sdk/exception"
+	request "github.com/blend/go-sdk/request"
 )
 
 // Client is an airvisual client

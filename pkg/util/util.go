@@ -3,8 +3,8 @@ package util
 import (
 	"fmt"
 
+	exception "github.com/blend/go-sdk/exception"
 	logger "github.com/blend/go-sdk/logger"
-	exception "github.com/blendlabs/go-exception"
 	"github.com/mat285/aqi/pkg/airvisual"
 	"github.com/mat285/aqi/pkg/slack"
 

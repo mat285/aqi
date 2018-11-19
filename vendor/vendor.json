@@ -97,36 +97,6 @@
 			"path": "github.com/blend/go-sdk/yaml",
 			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
 			"revisionTime": "2018-11-12T20:11:15Z"
-		},
-		{
-			"checksumSHA1": "hPUTgh/12ahfqumgsauofbnbx+Q=",
-			"path": "github.com/blendlabs/go-exception",
-			"revision": "9dae8754a473cc68abd8362fbca5c523e98426d2",
-			"revisionTime": "2018-03-31T18:22:19Z"
-		},
-		{
-			"checksumSHA1": "Y0ORUhAjZ5jWjXhg+V5nwTGi/PE=",
-			"path": "github.com/blendlabs/go-logger",
-			"revision": "cf063f87cc0ab3788a72379cd19eaa96f0c9ff4f",
-			"revisionTime": "2018-04-06T18:35:06Z"
-		},
-		{
-			"checksumSHA1": "kbUrU5Xut7eHFDAeMsm8WWRJc1k=",
-			"path": "github.com/blendlabs/go-request",
-			"revision": "01b74197916575af857b47497a64aa083c0d839b",
-			"revisionTime": "2018-04-09T00:08:13Z"
-		},
-		{
-			"checksumSHA1": "W4tA2nc+LfGyHdE7yPftwZ5nO/Q=",
-			"path": "github.com/blendlabs/go-util",
-			"revision": "f7b72045b8454770a66b635e7ad412a8ed81183b",
-			"revisionTime": "2018-04-09T00:10:18Z"
-		},
-		{
-			"checksumSHA1": "grQ/QOpQUhrcpNT85qJl7/X8rEc=",
-			"path": "github.com/blendlabs/go-util/env",
-			"revision": "f7b72045b8454770a66b635e7ad412a8ed81183b",
-			"revisionTime": "2018-04-09T00:10:18Z"
 		}
 	],
 	"rootPath": "github.com/mat285/aqi"
