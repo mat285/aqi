@@ -32,7 +32,6 @@ func main() {
 	conf = c
 	app := web.NewFromConfig(wc).WithLogger(log)
 
-	app.GET("/", handle)
 	app.POST("/", handle)
 
 	quit := make(chan os.Signal, 1)
@@ -58,13 +57,13 @@ func handle(r *web.Ctx) web.Result {
 	r.Request().Body = ioutil.NopCloser(bytes.NewReader(body))
 	user := web.StringValue(r.Param(slack.ParamUserIDKey))
 	text := web.StringValue(r.Param(slack.ParamTextKey))
-	if strings.Contains(text, "verify") {
-		err := verify(r)
-		if err != nil {
-			r.Logger().Error(err)
-			return r.JSON().InternalError(err)
-		}
+
+	err = verify(r) // verify the request came from slack
+	if err != nil {
+		r.Logger().Error(err)
+		return r.JSON().InternalError(err)
 	}
+
 	if util.IsBlocked(user) && !strings.Contains(text, "please") {
 		return r.JSON().Result(util.BlockedSlackMessage())
 	}
