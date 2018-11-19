@@ -54,6 +54,7 @@ func handle(r *web.Ctx) web.Result {
 	if strings.Contains(text, "verify") {
 		err := verify(r)
 		if err != nil {
+			r.Logger().Error(err)
 			return r.JSON().InternalError(err)
 		}
 	}
