@@ -61,7 +61,7 @@ func handle(r *web.Ctx) web.Result {
 	err = verify(r) // verify the request came from slack
 	if err != nil {
 		r.Logger().Error(err)
-		return r.JSON().InternalError(err)
+		return r.JSON().NotAuthorized()
 	}
 
 	if util.IsBlocked(user) && !strings.Contains(text, "please") {
