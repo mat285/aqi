@@ -66,12 +66,11 @@ func VerifyRequest(timestamp, body, digest, secret string) error {
 		return exception.New(err)
 	}
 	mac := hasher.Sum(nil)
-	fmt.Println("body", body)
-	fmt.Println(secret)
-	fmt.Println(parts[1])
-	fmt.Println(string(mac))
-	fmt.Println(hex.EncodeToString(mac))
-	if !hmac.Equal(mac, []byte(parts[1])) {
+	expected, err := hex.DecodeString(parts[0])
+	if err != nil {
+		return exception.New(err)
+	}
+	if !hmac.Equal(mac, expected) {
 		return exception.New("SignatureInvalid")
 	}
 	return nil
