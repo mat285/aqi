@@ -66,7 +66,7 @@ func VerifyRequest(timestamp, body, digest, secret string) error {
 		return exception.New(err)
 	}
 	mac := hasher.Sum(nil)
-	expected, err := hex.DecodeString(parts[0])
+	expected, err := hex.DecodeString(parts[1])
 	if err != nil {
 		return exception.New(err)
 	}

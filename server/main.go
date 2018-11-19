@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"os/signal"
@@ -92,6 +91,5 @@ func verify(r *web.Ctx) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(string(body))
 	return slack.VerifyRequest(timestamp, string(body), string(sig), env.Env().String(slack.EnvVarSignatureSecret))
 }
