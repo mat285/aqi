@@ -3,6 +3,7 @@ package slack
 import (
 	"crypto/hmac"
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -65,7 +66,11 @@ func VerifyRequest(timestamp, body, digest, secret string) error {
 		return exception.New(err)
 	}
 	mac := hasher.Sum(nil)
-	if !hmac.Equal(mac, []byte(parts[1])) {
+	expected, err := hex.DecodeString(parts[1])
+	if err != nil {
+		return exception.New(err)
+	}
+	if !hmac.Equal(mac, expected) {
 		return exception.New("SignatureInvalid")
 	}
 	return nil
