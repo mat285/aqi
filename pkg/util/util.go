@@ -13,6 +13,7 @@ import (
 
 const (
 	SlackUsername  = "AQI Bot"
+	SlackEmoji     = ":cloud:"
 	HealthyEmoji   = ":slightly_smiling_face:"
 	UnhealthyEmoji = ":mask:"
 	ToxicEmoji     = ":skull_and_crossbones:"
@@ -79,7 +80,7 @@ func AQISlackMessage(aqi int) *slack.Message {
 	return &slack.Message{
 		Username:     SlackUsername,
 		Text:         SlackMessageText(aqi),
-		IconEmoji:    EmojiForAQI(aqi),
+		IconEmoji:    SlackEmoji,
 		ResponseType: slack.ResponseTypeInChannel,
 	}
 }
