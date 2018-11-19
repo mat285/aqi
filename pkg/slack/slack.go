@@ -1,8 +1,12 @@
 package slack
 
 import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
 
 	exception "github.com/blend/go-sdk/exception"
 	request "github.com/blend/go-sdk/request"
@@ -13,6 +17,11 @@ const (
 
 	ParamTextKey   = "text"
 	ParamUserIDKey = "user_id"
+
+	TimestampHeaderParam = "X-Slack-Request-Timestamp"
+	SignatureHeaderParam = "X-Slack-Signature"
+
+	EnvVarSignatureSecret = "SLACK_SIGNATURE_SECRET"
 )
 
 // Message is a message sent to slack.
@@ -38,6 +47,26 @@ func Notify(hook string, message *Message) error {
 	}
 	if meta.StatusCode > http.StatusOK {
 		return exception.New(res)
+	}
+	return nil
+}
+
+// VerifyRequest verifies the request came from slack
+func VerifyRequest(timestamp, body, digest, secret string) error {
+	parts := strings.Split(digest, "=")
+	if len(parts) != 2 {
+		return exception.New("InvalidDigestError")
+	}
+	version := parts[0]
+	sigBase := fmt.Sprintf("%s:%s:%s", version, timestamp, body)
+	hasher := hmac.New(sha256.New, []byte(secret))
+	_, err := hasher.Write([]byte(sigBase))
+	if err != nil {
+		return exception.New(err)
+	}
+	mac := hasher.Sum(nil)
+	if !hmac.Equal(mac, []byte(parts[1])) {
+		return exception.New("SignatureInvalid")
 	}
 	return nil
 }

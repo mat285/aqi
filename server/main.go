@@ -6,6 +6,7 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/blend/go-sdk/env"
 	logger "github.com/blend/go-sdk/logger"
 	web "github.com/blend/go-sdk/web"
 	"github.com/mat285/aqi/pkg/config"
@@ -50,6 +51,12 @@ func main() {
 func handle(r *web.Ctx) web.Result {
 	user := web.StringValue(r.Param(slack.ParamUserIDKey))
 	text := web.StringValue(r.Param(slack.ParamTextKey))
+	if strings.Contains(text, "verify") {
+		err := verify(r)
+		if err != nil {
+			return r.JSON().InternalError(err)
+		}
+	}
 	if util.IsBlocked(user) && !strings.Contains(text, "please") {
 		return r.JSON().Result(util.BlockedSlackMessage())
 	}
@@ -61,4 +68,20 @@ func handle(r *web.Ctx) web.Result {
 		return r.JSON().Result(util.CigarettesSlackMessage(aqi))
 	}
 	return r.JSON().Result(util.AQISlackMessage(aqi))
+}
+
+func verify(r *web.Ctx) error {
+	timestamp, err := r.HeaderValue(slack.TimestampHeaderParam)
+	if err != nil {
+		return err
+	}
+	body, err := r.PostBody()
+	if err != nil {
+		return err
+	}
+	sig, err := r.HeaderValue(slack.SignatureHeaderParam)
+	if err != nil {
+		return err
+	}
+	return slack.VerifyRequest(timestamp, string(body), string(sig), env.Env().String(slack.EnvVarSignatureSecret))
 }
