@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/signal"
 	"strings"
@@ -50,6 +52,11 @@ func main() {
 }
 
 func handle(r *web.Ctx) web.Result {
+	body, err := r.PostBody()
+	if err != nil {
+		return r.JSON().InternalError(err)
+	}
+	r.Request().Body = ioutil.NopCloser(bytes.NewReader(body))
 	user := web.StringValue(r.Param(slack.ParamUserIDKey))
 	text := web.StringValue(r.Param(slack.ParamTextKey))
 	if strings.Contains(text, "verify") {
