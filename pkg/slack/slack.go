@@ -66,6 +66,8 @@ func VerifyRequest(timestamp, body, digest, secret string) error {
 		return exception.New(err)
 	}
 	mac := hasher.Sum(nil)
+	fmt.Println(body)
+	fmt.Println(secret)
 	fmt.Println(parts[1])
 	fmt.Println(string(mac))
 	fmt.Println(hex.EncodeToString(mac))
