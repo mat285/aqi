@@ -13,9 +13,10 @@ const (
 )
 
 const (
-	BaseURL           = "https://api.airvisual.com/v2/"
-	CityURL           = BaseURL + "city"
-	LocationURLFormat = CityURL + "?city=%s&state=%s&country=%s"
+	// BaseURL is the base url for requests
+	BaseURL = "https://api.airvisual.com/v2/"
+	// CityURL is the url for city requests
+	CityURL = BaseURL + "city"
 )
 
 // LocationRequest is a request for a location data

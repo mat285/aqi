@@ -14,19 +14,28 @@ import (
 )
 
 const (
-	SlackUsername  = "AQI Bot"
-	SlackEmoji     = ":cloud:"
-	HealthyEmoji   = ":slightly_smiling_face:"
+	// SlackUsername is the slack username
+	SlackUsername = "AQI Bot"
+	// SlackEmoji is the slack emoji
+	SlackEmoji = ":cloud:"
+	// HealthyEmoji is the healthy emoji
+	HealthyEmoji = ":slightly_smiling_face:"
+	// UnhealthyEmoji is the unhealthy emoji
 	UnhealthyEmoji = ":mask:"
-	ToxicEmoji     = ":skull_and_crossbones:"
+	// ToxicEmoji is the toxic emoji
+	ToxicEmoji = ":skull_and_crossbones:"
 
+	// CigarettesPerAQI is the number of cigarettes per point of aqi
 	CigarettesPerAQI = 0.04631
 
-	CountryCodeUSA      = "USA"
+	// CountryCodeUSA is the country code for USA
+	CountryCodeUSA = "USA"
+	// StateCodeCalifornia is the state code for california
 	StateCodeCalifornia = "California"
 )
 
 var (
+	// BlockedUsers are the users who need to ask nicely
 	BlockedUsers = map[string]bool{}
 )
 

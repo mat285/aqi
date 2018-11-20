@@ -14,14 +14,20 @@ import (
 )
 
 const (
+	// ResponseTypeInChannel is the in channel response type
 	ResponseTypeInChannel = "in_channel"
 
-	ParamTextKey   = "text"
+	// ParamTextKey is the slack text key
+	ParamTextKey = "text"
+	// ParamUserIDKey is the slack user key
 	ParamUserIDKey = "user_id"
 
+	// TimestampHeaderParam is the header for timestamp
 	TimestampHeaderParam = "X-Slack-Request-Timestamp"
+	// SignatureHeaderParam is the header for signature
 	SignatureHeaderParam = "X-Slack-Signature"
 
+	// EnvVarSignatureSecret is the secret for the signature
 	EnvVarSignatureSecret = "SLACK_SIGNATURE_SECRET"
 )
 
