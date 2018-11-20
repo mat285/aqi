@@ -21,6 +21,7 @@ Valid options to the base slash command include:
 - `city "<City>" "<State>" "<Country>"` which will return data for the specified city
 - `nyc` for New York City
 - `LA` for Los Angeles
+- `cigarettes` to calculate the number of cigarettes spending all day in the air with aqi is equal to
 
 The default returned values are for San Francisco, California, USA.
 
