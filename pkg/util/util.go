@@ -78,12 +78,7 @@ func LocationRequestFromText(text string) *airvisual.LocationRequest {
 func CityAirVisualRequest(text string) *airvisual.LocationRequest {
 	text = strings.TrimSpace(strings.Trim(text, "city"))
 	parts := SplitOnSpacePreserveQuotes(text)
-	sanitized := []string{}
-	for _, part := range parts {
-		if part != "" {
-			sanitized = append(sanitized, part)
-		}
-	}
+	logger.All().Debugf("Parsed Input: %v", parts)
 	if len(parts) < 3 {
 		return nil
 	}

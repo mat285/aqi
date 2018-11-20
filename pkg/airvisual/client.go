@@ -1,7 +1,6 @@
 package airvisual
 
 import (
-	"fmt"
 	"net/url"
 
 	exception "github.com/blend/go-sdk/exception"
@@ -39,7 +38,6 @@ func (c *Client) locationRequestURL(r *LocationRequest) *url.URL {
 	v.Set("country", r.Country)
 	v.Set("key", c.apiKey)
 	u.RawQuery = v.Encode()
-	fmt.Println(u.String())
 	return u
 }
 
