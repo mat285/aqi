@@ -1,5 +1,10 @@
 package util
 
+const (
+	slackOpenQuote  = '“'
+	slackCloseQuote = '”'
+)
+
 // SplitOnSpacePreserveQuotes splits the string on spaces preserving whitespace in quotes
 func SplitOnSpacePreserveQuotes(str string) []string {
 	ret := []string{}
@@ -11,7 +16,7 @@ func SplitOnSpacePreserveQuotes(str string) []string {
 		if state == 0 {
 			if r == ' ' {
 				continue
-			} else if r == '"' {
+			} else if isQuote(r) {
 				state = 2
 				continue
 			}
@@ -23,7 +28,7 @@ func SplitOnSpacePreserveQuotes(str string) []string {
 				curr = []rune{}
 				state = 0
 				continue
-			} else if r == '"' {
+			} else if isQuote(r) {
 				state = 2
 				continue
 			} else {
@@ -35,7 +40,7 @@ func SplitOnSpacePreserveQuotes(str string) []string {
 					continue
 				}
 				curr = append(curr, r)
-			} else if r == '"' {
+			} else if isQuote(r) {
 				state = 1
 				continue
 			} else {
@@ -47,4 +52,8 @@ func SplitOnSpacePreserveQuotes(str string) []string {
 		ret = append(ret, string(curr))
 	}
 	return ret
+}
+
+func isQuote(r rune) bool {
+	return r == '"' || r == slackCloseQuote || r == slackOpenQuote
 }
