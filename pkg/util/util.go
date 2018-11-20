@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"io/ioutil"
 	"strings"
 
 	exception "github.com/blend/go-sdk/exception"
@@ -38,6 +39,23 @@ var (
 	// BlockedUsers are the users who need to ask nicely
 	BlockedUsers = map[string]bool{}
 )
+
+// BlockUsersFromFile reads the newline delimited file to block the user ids
+func BlockUsersFromFile(filename string) error {
+	data, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return exception.New(err)
+	}
+	BlockUsers(strings.Split(string(data), " ")...)
+	return nil
+}
+
+// BlockUsers blocks the given users
+func BlockUsers(users ...string) {
+	for _, u := range users {
+		BlockedUsers[u] = true
+	}
+}
 
 // IsBlocked returns if the user is blocked
 func IsBlocked(user string) bool {
