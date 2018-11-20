@@ -79,9 +79,9 @@ func handle(r *web.Ctx) web.Result {
 		return r.JSON().Result(errMessage)
 	}
 	if strings.Contains(text, "cigarettes") {
-		return r.JSON().Result(util.CigarettesSlackMessage(aqi))
+		return r.JSON().Result(util.CigarettesSlackMessage(aqi, req.City))
 	}
-	return r.JSON().Result(util.AQISlackMessage(aqi))
+	return r.JSON().Result(util.AQISlackMessage(aqi, req.City))
 }
 
 func verify(r *web.Ctx) error {

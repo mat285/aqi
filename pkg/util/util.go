@@ -6,6 +6,7 @@ import (
 
 	exception "github.com/blend/go-sdk/exception"
 	logger "github.com/blend/go-sdk/logger"
+	util "github.com/blendlabs/go-util"
 	"github.com/mat285/aqi/pkg/airvisual"
 	"github.com/mat285/aqi/pkg/slack"
 
@@ -52,8 +53,8 @@ func EmojiForAQI(aqi int) string {
 }
 
 // SlackMessageText returns the text for a slack message of the aqi
-func SlackMessageText(aqi int) string {
-	return fmt.Sprintf("Current AQI: `%d` %s", aqi, EmojiForAQI(aqi))
+func SlackMessageText(aqi int, city string) string {
+	return fmt.Sprintf("%s current AQI: `%d` %s", city, aqi, EmojiForAQI(aqi))
 }
 
 // LocationRequestFromText returns the location request from the text
@@ -61,8 +62,7 @@ func LocationRequestFromText(text string) *airvisual.LocationRequest {
 	text = strings.TrimSpace(strings.ToLower(text))
 	if strings.HasPrefix(text, "city ") {
 		return CityAirVisualRequest(text)
-	}
-	if strings.Contains(text, "sf") || strings.Contains(text, "san francisco") {
+	} else if strings.Contains(text, "sf") || strings.Contains(text, "san francisco") {
 		return SanFranciscoAirVisualRequest()
 	} else if strings.Contains(text, "nyc") || strings.Contains(text, "new york") {
 		return NewYorkAirVisualRequest()
@@ -88,9 +88,9 @@ func CityAirVisualRequest(text string) *airvisual.LocationRequest {
 		return nil
 	}
 	return &airvisual.LocationRequest{
-		City:    parts[0],
-		State:   parts[1],
-		Country: parts[2],
+		City:    util.String.ToTitleCase(parts[0]),
+		State:   util.String.ToTitleCase(parts[1]),
+		Country: util.String.ToTitleCase(parts[2]),
 	}
 }
 
@@ -132,23 +132,23 @@ func SeattleAirVisualRequest() *airvisual.LocationRequest {
 
 // BlockedSlackMessage returns the message to a blocked user
 func BlockedSlackMessage() *slack.Message {
-	m := AQISlackMessage(-1)
+	m := AQISlackMessage(-1, "")
 	m.Text = "no"
 	return m
 }
 
 // CigarettesSlackMessage returns the message for cigarettes
-func CigarettesSlackMessage(aqi int) *slack.Message {
-	m := AQISlackMessage(aqi)
-	m.Text = fmt.Sprintf("Number of cigarettes: `%03f`", NumCigarettes(aqi))
+func CigarettesSlackMessage(aqi int, city string) *slack.Message {
+	m := AQISlackMessage(aqi, city)
+	m.Text = fmt.Sprintf("%s number of cigarettes: `%03f`", city, NumCigarettes(aqi))
 	return m
 }
 
 // AQISlackMessage returns the message to send back for the aqi to slack
-func AQISlackMessage(aqi int) *slack.Message {
+func AQISlackMessage(aqi int, city string) *slack.Message {
 	return &slack.Message{
 		Username:     SlackUsername,
-		Text:         SlackMessageText(aqi),
+		Text:         SlackMessageText(aqi, city),
 		IconEmoji:    SlackEmoji,
 		ResponseType: slack.ResponseTypeInChannel,
 	}
@@ -178,7 +178,7 @@ func FetchAndSendAQIForConfig(c *config.Config, req *airvisual.LocationRequest, 
 
 	channel := c.GetSlackChannel("slack-bot-test")
 	log.SyncInfof("Notifying slack channel `%s`", channel)
-	message := AQISlackMessage(aqi)
+	message := AQISlackMessage(aqi, req.City)
 	message.Channel = channel
 	return aqi, slack.Notify(c.SlackWebhook, message)
 }
