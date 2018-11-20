@@ -58,7 +58,10 @@ func SlackMessageText(aqi int) string {
 
 // LocationRequestFromText returns the location request from the text
 func LocationRequestFromText(text string) *airvisual.LocationRequest {
-	text = strings.ToLower(text)
+	text = strings.TrimSpace(strings.ToLower(text))
+	if strings.HasPrefix(text, "city ") {
+		return CityAirVisualRequest(text)
+	}
 	if strings.Contains(text, "sf") || strings.Contains(text, "san francisco") {
 		return SanFranciscoAirVisualRequest()
 	} else if strings.Contains(text, "nyc") || strings.Contains(text, "new york") {
@@ -69,6 +72,26 @@ func LocationRequestFromText(text string) *airvisual.LocationRequest {
 		return LosAngelesAirVisualRequest()
 	}
 	return SanFranciscoAirVisualRequest()
+}
+
+// CityAirVisualRequest returns the request for a city
+func CityAirVisualRequest(text string) *airvisual.LocationRequest {
+	text = strings.TrimSpace(strings.Trim(text, "city"))
+	parts := strings.Split(text, " ")
+	sanitized := []string{}
+	for _, part := range parts {
+		if part != "" {
+			sanitized = append(sanitized, part)
+		}
+	}
+	if len(parts) < 3 {
+		return nil
+	}
+	return &airvisual.LocationRequest{
+		City:    parts[0],
+		State:   parts[1],
+		Country: parts[2],
+	}
 }
 
 // SanFranciscoAirVisualRequest returns the request for sf
@@ -139,7 +162,7 @@ func FetchAQI(c *config.Config, req *airvisual.LocationRequest, log *logger.Logg
 	if err != nil {
 		return -1, err
 	}
-	if resp.Status == airvisual.StatusFailed {
+	if resp.Status != airvisual.StatusSuccess {
 		return -1, exception.New("RequestFailed").WithMessagef("%v", resp)
 	}
 	return resp.Data.Current.Pollution.AQI, nil

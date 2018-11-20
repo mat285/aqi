@@ -18,6 +18,8 @@ import (
 
 var conf *config.Config
 
+const errMessage = "Oops! Something's not quite right"
+
 func main() {
 	log := logger.All()
 
@@ -67,9 +69,14 @@ func handle(r *web.Ctx) web.Result {
 	if util.IsBlocked(user) && !strings.Contains(text, "please") {
 		return r.JSON().Result(util.BlockedSlackMessage())
 	}
-	aqi, err := util.FetchAQI(conf, util.LocationRequestFromText(text), r.Logger())
+	req := util.LocationRequestFromText(text)
+	if req == nil {
+		return r.JSON().Result(errMessage)
+	}
+	aqi, err := util.FetchAQI(conf, req, r.Logger())
 	if err != nil {
-		return r.JSON().InternalError(err)
+		r.Logger().Error(err)
+		return r.JSON().Result(errMessage)
 	}
 	if strings.Contains(text, "cigarettes") {
 		return r.JSON().Result(util.CigarettesSlackMessage(aqi))
