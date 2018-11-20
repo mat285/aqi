@@ -2,6 +2,7 @@ package airvisual
 
 import (
 	"fmt"
+	"net/url"
 
 	exception "github.com/blend/go-sdk/exception"
 	request "github.com/blend/go-sdk/request"
@@ -25,13 +26,21 @@ func (c *Client) Location(r *LocationRequest) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	req := request.Get(c.locationRequestURL(r))
+	req := request.Get(c.locationRequestURL(r).String())
 	resp := &Response{}
 	return resp, req.JSON(resp)
 }
 
-func (c *Client) locationRequestURL(r *LocationRequest) string {
-	return fmt.Sprintf(LocationURLFormat, r.City, r.State, r.Country) + "&key=" + c.apiKey
+func (c *Client) locationRequestURL(r *LocationRequest) *url.URL {
+	u, _ := url.Parse(CityURL)
+	v := u.Query()
+	v.Set("city", r.City)
+	v.Set("state", r.State)
+	v.Set("country", r.Country)
+	v.Set("key", c.apiKey)
+	u.RawQuery = v.Encode()
+	fmt.Println(u.String())
+	return u
 }
 
 // Validate validates the location request

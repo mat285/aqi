@@ -74,7 +74,7 @@ func LocationRequestFromText(text string) *airvisual.LocationRequest {
 // SanFranciscoAirVisualRequest returns the request for sf
 func SanFranciscoAirVisualRequest() *airvisual.LocationRequest {
 	return &airvisual.LocationRequest{
-		City:    "San%20Francisco",
+		City:    "San Francisco",
 		State:   StateCodeCalifornia,
 		Country: CountryCodeUSA,
 	}
@@ -83,8 +83,8 @@ func SanFranciscoAirVisualRequest() *airvisual.LocationRequest {
 // NewYorkAirVisualRequest returns the request for nyc
 func NewYorkAirVisualRequest() *airvisual.LocationRequest {
 	return &airvisual.LocationRequest{
-		City:    "New%20York",
-		State:   "New%20York",
+		City:    "New York",
+		State:   "New York",
 		Country: CountryCodeUSA,
 	}
 }
@@ -92,7 +92,7 @@ func NewYorkAirVisualRequest() *airvisual.LocationRequest {
 // LosAngelesAirVisualRequest returns the request for la
 func LosAngelesAirVisualRequest() *airvisual.LocationRequest {
 	return &airvisual.LocationRequest{
-		City:    "Los%20Angeles",
+		City:    "Los Angeles",
 		State:   StateCodeCalifornia,
 		Country: CountryCodeUSA,
 	}
