@@ -97,6 +97,18 @@
 			"path": "github.com/blend/go-sdk/yaml",
 			"revision": "ab8359b199b94ec32d4f46389f67b317993b6a15",
 			"revisionTime": "2018-11-12T20:11:15Z"
+		},
+		{
+			"checksumSHA1": "hPUTgh/12ahfqumgsauofbnbx+Q=",
+			"path": "github.com/blendlabs/go-exception",
+			"revision": "9dae8754a473cc68abd8362fbca5c523e98426d2",
+			"revisionTime": "2018-03-31T18:22:19Z"
+		},
+		{
+			"checksumSHA1": "W4tA2nc+LfGyHdE7yPftwZ5nO/Q=",
+			"path": "github.com/blendlabs/go-util",
+			"revision": "f7b72045b8454770a66b635e7ad412a8ed81183b",
+			"revisionTime": "2018-04-09T00:10:18Z"
 		}
 	],
 	"rootPath": "github.com/mat285/aqi"
