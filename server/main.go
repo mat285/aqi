@@ -67,7 +67,7 @@ func handle(r *web.Ctx) web.Result {
 	if util.IsBlocked(user) && !strings.Contains(text, "please") {
 		return r.JSON().Result(util.BlockedSlackMessage())
 	}
-	aqi, err := util.FetchAQI(conf, util.SanFranciscoAirVisualRequest(), r.Logger())
+	aqi, err := util.FetchAQI(conf, util.LocationRequestFromText(text), r.Logger())
 	if err != nil {
 		return r.JSON().InternalError(err)
 	}

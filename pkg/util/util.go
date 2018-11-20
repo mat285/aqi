@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"strings"
 
 	exception "github.com/blend/go-sdk/exception"
 	logger "github.com/blend/go-sdk/logger"
@@ -19,6 +20,9 @@ const (
 	ToxicEmoji     = ":skull_and_crossbones:"
 
 	CigarettesPerAQI = 0.04631
+
+	CountryCodeUSA      = "USA"
+	StateCodeCalifornia = "California"
 )
 
 var (
@@ -52,12 +56,54 @@ func SlackMessageText(aqi int) string {
 	return fmt.Sprintf("Current AQI: `%d` %s", aqi, EmojiForAQI(aqi))
 }
 
+// LocationRequestFromText returns the location request from the text
+func LocationRequestFromText(text string) *airvisual.LocationRequest {
+	text = strings.ToLower(text)
+	if strings.Contains(text, "sf") || strings.Contains(text, "san francisco") {
+		return SanFranciscoAirVisualRequest()
+	} else if strings.Contains(text, "nyc") || strings.Contains(text, "new york") {
+		return NewYorkAirVisualRequest()
+	} else if strings.Contains(text, "seattle") {
+		return SeattleAirVisualRequest()
+	} else if strings.Contains(text, " la ") || strings.TrimSpace(text) == "la" || strings.Contains(text, "los angeles") {
+		return LosAngelesAirVisualRequest()
+	}
+	return SanFranciscoAirVisualRequest()
+}
+
 // SanFranciscoAirVisualRequest returns the request for sf
 func SanFranciscoAirVisualRequest() *airvisual.LocationRequest {
 	return &airvisual.LocationRequest{
 		City:    "San%20Francisco",
-		State:   "California",
-		Country: "USA",
+		State:   StateCodeCalifornia,
+		Country: CountryCodeUSA,
+	}
+}
+
+// NewYorkAirVisualRequest returns the request for nyc
+func NewYorkAirVisualRequest() *airvisual.LocationRequest {
+	return &airvisual.LocationRequest{
+		City:    "New%20York",
+		State:   "New%20York",
+		Country: CountryCodeUSA,
+	}
+}
+
+// LosAngelesAirVisualRequest returns the request for la
+func LosAngelesAirVisualRequest() *airvisual.LocationRequest {
+	return &airvisual.LocationRequest{
+		City:    "Los%20Angeles",
+		State:   StateCodeCalifornia,
+		Country: CountryCodeUSA,
+	}
+}
+
+// SeattleAirVisualRequest returns the request for seattle
+func SeattleAirVisualRequest() *airvisual.LocationRequest {
+	return &airvisual.LocationRequest{
+		City:    "Seattle",
+		State:   "Washington",
+		Country: CountryCodeUSA,
 	}
 }
 
