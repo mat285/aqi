@@ -32,6 +32,16 @@ func main() {
 		log.SyncFatalExit(err)
 	}
 	conf = c
+
+	file := env.Env().String("BLOCKED_USERS_FILE")
+	_, err = os.Stat(file)
+	if err == nil {
+		err = util.BlockUsersFromFile(file)
+		if err != nil {
+			log.Error(err)
+		}
+	}
+
 	app := web.NewFromConfig(wc).WithLogger(log)
 
 	app.POST("/", handle)
