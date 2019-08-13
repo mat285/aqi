@@ -56,6 +56,7 @@ func Notify(hook string, message *Message) error {
 
 // UnmarshalSlashCommandBody unmarshals the form encoded data into the struct
 func UnmarshalSlashCommandBody(body []byte) (*SlashCommandRequest, error) {
+	// TODO handle this better for unmarshalling why can't slack just use json
 	strbody := strings.Replace(string(body), "\n&", "&", -1)
 	vals, err := url.ParseQuery(strbody)
 	if err != nil {
@@ -72,7 +73,6 @@ func UnmarshalSlashCommandBody(body []byte) (*SlashCommandRequest, error) {
 	if err != nil {
 		return nil, exception.New(err)
 	}
-	fmt.Println(string(data))
 	req := SlashCommandRequest{}
 	if err != nil {
 		return nil, exception.New(err)
