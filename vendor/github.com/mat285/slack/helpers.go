@@ -61,8 +61,14 @@ func UnmarshalSlashCommandBody(body []byte) (*SlashCommandRequest, error) {
 	if err != nil {
 		return nil, exception.New(err)
 	}
-	fmt.Println(vals)
-	data, err := json.Marshal(vals)
+	intermediate := map[string]string{}
+	for k, v := range vals {
+		intermediate[k] = ""
+		if len(v) != 0 {
+			intermediate[k] = v[0]
+		}
+	}
+	data, err := json.Marshal(intermediate)
 	if err != nil {
 		return nil, exception.New(err)
 	}
