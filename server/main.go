@@ -1,28 +1,28 @@
 package main
 
 import (
+	"fmt"
 	"os"
-	"os/signal"
 	"strings"
-	"syscall"
 
 	"github.com/blend/go-sdk/env"
 	logger "github.com/blend/go-sdk/logger"
 	web "github.com/blend/go-sdk/web"
 	"github.com/mat285/aqi/pkg/config"
 	"github.com/mat285/aqi/pkg/util"
-	"github.com/mat285/slack"
+	slackserver "github.com/mat285/slack/server"
+	"github.com/mat285/slack/slack"
 )
 
 var (
-	conf    *config.Config
-	slacker *slack.Slack
+	conf *config.Config
+	log  *logger.Logger
 )
 
 const errMessage = "Oops! Something's not quite right"
 
 func main() {
-	log := logger.All()
+	log = logger.All()
 
 	wc, err := web.NewConfigFromEnv()
 	if err != nil {
@@ -34,7 +34,11 @@ func main() {
 	}
 	conf = c
 
-	slacker = slack.New(env.Env().Bytes(slack.EnvVarSignatureSecret))
+	sc := &slackserver.Config{
+		Config:               *wc,
+		AcknowledgeOnVerify:  false,
+		SlackSignatureSecret: env.Env().String(slack.EnvVarSignatureSecret),
+	}
 
 	file := env.Env().String("BLOCKED_USERS_FILE")
 	_, err = os.Stat(file)
@@ -45,48 +49,30 @@ func main() {
 		}
 	}
 
-	app := web.NewFromConfig(wc).WithLogger(log)
-
-	app.POST("/", handle)
-
-	quit := make(chan os.Signal, 1)
-	// trap ^C
-	signal.Notify(quit, os.Interrupt)
-	signal.Notify(quit, syscall.SIGTERM)
-
-	go func() {
-		<-quit
-		log.SyncError(app.Shutdown())
-	}()
-
-	if err := web.StartWithGracefulShutdown(app); err != nil {
+	serv := slackserver.New(sc).WithHandleFunc(handle)
+	err = serv.Start()
+	if err != nil {
 		log.SyncFatalExit(err)
 	}
 }
 
-func handle(r *web.Ctx) web.Result {
-	sr, err := slacker.VerifyRequest(r.Request())
-	if err != nil {
-		r.Logger().Error(err)
-		return r.JSON().NotAuthorized()
-	}
+func handle(sr *slack.SlashCommandRequest) (*slack.Message, error) {
 	user := sr.UserID
 	text := sr.Text
 
 	if util.IsBlocked(user) && !strings.Contains(text, "please") {
-		return r.JSON().Result(util.BlockedSlackMessage())
+		return util.BlockedSlackMessage(), nil
 	}
 	req := util.LocationRequestFromText(text)
 	if req == nil {
-		return r.JSON().Result(errMessage)
+		return nil, fmt.Errorf(errMessage)
 	}
-	aqi, err := util.FetchAQI(conf, req, r.Logger())
+	aqi, err := util.FetchAQI(conf, req, log)
 	if err != nil {
-		r.Logger().Error(err)
-		return r.JSON().Result(errMessage)
+		return nil, err
 	}
 	if strings.Contains(text, "cigarettes") {
-		return r.JSON().Result(util.CigarettesSlackMessage(aqi, req.City))
+		return util.CigarettesSlackMessage(aqi, req.City), nil
 	}
-	return r.JSON().Result(util.AQISlackMessage(aqi, req.City))
+	return util.AQISlackMessage(aqi, req.City), nil
 }
