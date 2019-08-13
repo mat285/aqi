@@ -61,10 +61,12 @@ func UnmarshalSlashCommandBody(body []byte) (*SlashCommandRequest, error) {
 	if err != nil {
 		return nil, exception.New(err)
 	}
+	fmt.Println(vals)
 	data, err := json.Marshal(vals)
 	if err != nil {
 		return nil, exception.New(err)
 	}
+	fmt.Println(string(data))
 	req := SlashCommandRequest{}
 	if err != nil {
 		return nil, exception.New(err)
