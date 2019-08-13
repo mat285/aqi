@@ -10,8 +10,8 @@ import (
 	"net/url"
 	"strings"
 
-	exception "github.com/blendlabs/go-exception"
-	request "github.com/blendlabs/go-request"
+	exception "github.com/blend/go-sdk/exception"
+	request "github.com/blend/go-sdk/request"
 )
 
 // VerifyRequest verifies the request came from slack
@@ -40,7 +40,11 @@ func VerifyRequest(timestamp, body, digest string, secret []byte) error {
 
 // Notify sends a slack hook.
 func Notify(hook string, message *Message) error {
-	res, meta, err := request.New().AsPost().WithURL(hook).WithPostBodyAsJSON(message).StringWithMeta()
+	hookURL, err := url.Parse(hook)
+	if err != nil {
+		return exception.New(err)
+	}
+	res, meta, err := request.New().AsPost().WithURL(hookURL).WithPostBodyAsJSON(message).StringWithMeta()
 	if err != nil {
 		return err
 	}

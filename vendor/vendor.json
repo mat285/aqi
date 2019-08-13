@@ -111,10 +111,10 @@
 			"revisionTime": "2018-04-09T00:10:18Z"
 		},
 		{
-			"checksumSHA1": "pLVjKsmyfAYYLhq4reyPLJILvrA=",
+			"checksumSHA1": "LNBxAd+sEhfHA3h9LWixTk7Tvz4=",
 			"path": "github.com/mat285/slack",
-			"revision": "d70110e3c6a039820ba3c7b8009336987be680c6",
-			"revisionTime": "2019-08-13T19:35:47Z"
+			"revision": "27d90b6977e5cf27886dc4b67ccab31964c66a8b",
+			"revisionTime": "2019-08-13T19:41:05Z"
 		}
 	],
 	"rootPath": "github.com/mat285/aqi"
