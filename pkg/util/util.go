@@ -9,9 +9,8 @@ import (
 	logger "github.com/blend/go-sdk/logger"
 	util "github.com/blendlabs/go-util"
 	"github.com/mat285/aqi/pkg/airvisual"
-	"github.com/mat285/aqi/pkg/slack"
-
 	"github.com/mat285/aqi/pkg/config"
+	"github.com/mat285/slack"
 )
 
 const (

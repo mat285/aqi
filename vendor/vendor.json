@@ -109,6 +109,12 @@
 			"path": "github.com/blendlabs/go-util",
 			"revision": "f7b72045b8454770a66b635e7ad412a8ed81183b",
 			"revisionTime": "2018-04-09T00:10:18Z"
+		},
+		{
+			"checksumSHA1": "pLVjKsmyfAYYLhq4reyPLJILvrA=",
+			"path": "github.com/mat285/slack",
+			"revision": "d70110e3c6a039820ba3c7b8009336987be680c6",
+			"revisionTime": "2019-08-13T19:35:47Z"
 		}
 	],
 	"rootPath": "github.com/mat285/aqi"

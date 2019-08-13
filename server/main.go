@@ -1,8 +1,6 @@
 package main
 
 import (
-	"bytes"
-	"io/ioutil"
 	"os"
 	"os/signal"
 	"strings"
@@ -12,11 +10,14 @@ import (
 	logger "github.com/blend/go-sdk/logger"
 	web "github.com/blend/go-sdk/web"
 	"github.com/mat285/aqi/pkg/config"
-	"github.com/mat285/aqi/pkg/slack"
 	"github.com/mat285/aqi/pkg/util"
+	"github.com/mat285/slack"
 )
 
-var conf *config.Config
+var (
+	conf    *config.Config
+	slacker *slack.Slack
+)
 
 const errMessage = "Oops! Something's not quite right"
 
@@ -32,6 +33,8 @@ func main() {
 		log.SyncFatalExit(err)
 	}
 	conf = c
+
+	slacker = slack.New(env.Env().Bytes(slack.EnvVarSignatureSecret))
 
 	file := env.Env().String("BLOCKED_USERS_FILE")
 	_, err = os.Stat(file)
@@ -62,19 +65,13 @@ func main() {
 }
 
 func handle(r *web.Ctx) web.Result {
-	body, err := r.PostBody()
-	if err != nil {
-		return r.JSON().InternalError(err)
-	}
-	r.Request().Body = ioutil.NopCloser(bytes.NewReader(body))
-	user := web.StringValue(r.Param(slack.ParamUserIDKey))
-	text := web.StringValue(r.Param(slack.ParamTextKey))
-
-	err = verify(r) // verify the request came from slack
+	sr, err := slacker.VerifyRequest(r.Request())
 	if err != nil {
 		r.Logger().Error(err)
 		return r.JSON().NotAuthorized()
 	}
+	user := sr.UserID
+	text := sr.Text
 
 	if util.IsBlocked(user) && !strings.Contains(text, "please") {
 		return r.JSON().Result(util.BlockedSlackMessage())
@@ -92,20 +89,4 @@ func handle(r *web.Ctx) web.Result {
 		return r.JSON().Result(util.CigarettesSlackMessage(aqi, req.City))
 	}
 	return r.JSON().Result(util.AQISlackMessage(aqi, req.City))
-}
-
-func verify(r *web.Ctx) error {
-	timestamp, err := r.HeaderValue(slack.TimestampHeaderParam)
-	if err != nil {
-		return err
-	}
-	body, err := r.PostBody()
-	if err != nil {
-		return err
-	}
-	sig, err := r.HeaderValue(slack.SignatureHeaderParam)
-	if err != nil {
-		return err
-	}
-	return slack.VerifyRequest(timestamp, string(body), string(sig), env.Env().String(slack.EnvVarSignatureSecret))
 }
