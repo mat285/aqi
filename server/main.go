@@ -49,7 +49,7 @@ func main() {
 		}
 	}
 
-	serv := slackserver.New(sc).WithHandleFunc(handle)
+	serv := slackserver.New(sc).WithHandler(handle)
 	err = serv.Start()
 	if err != nil {
 		log.SyncFatalExit(err)
