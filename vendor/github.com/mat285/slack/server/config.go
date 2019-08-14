@@ -10,3 +10,8 @@ type Config struct {
 	SlackSignatureSecret string `json:"slackSignatureSecret"`
 	AcknowledgeOnVerify  bool   `json:"acknowledgeOnVerify"`
 }
+
+// Status is the status of the server
+type Status struct {
+	Ready bool `json:"ready"`
+}

@@ -37,8 +37,8 @@ func (s *Server) WithHandleFunc(f HandleFunc) *Server {
 // Start gracefully starts the server starts the server and blocks until it exits
 func (s *Server) Start() error {
 	s.App.POST("/", s.handle)
-	healthz := web.NewHealthz(s.App)
-	return graceful.Shutdown(healthz)
+	s.App.GET("/healthz", s.healthz)
+	return graceful.Shutdown(s.App)
 }
 
 func (s *Server) handle(r *web.Ctx) web.Result {
@@ -95,4 +95,8 @@ func (s *Server) errorMessage() *slack.Message {
 		ResponseType: slack.ResponseTypeEphemeral,
 		Text:         "Oops! Something went wrong with processing your request, please try again",
 	}
+}
+
+func (s *Server) healthz(r *web.Ctx) web.Result {
+	return r.JSON().Result(&Status{Ready: true})
 }
