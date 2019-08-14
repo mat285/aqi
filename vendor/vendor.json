@@ -111,10 +111,22 @@
 			"revisionTime": "2018-04-09T00:10:18Z"
 		},
 		{
-			"checksumSHA1": "5m1RxqpKO7xbL+J1IDFIPa0Frew=",
+			"checksumSHA1": "Y1E9ZigGcSlbVCvJ5o3dCxHnHU4=",
 			"path": "github.com/mat285/slack",
-			"revision": "d5d8f719bdee2979e17058ba244770f472618175",
-			"revisionTime": "2019-08-13T19:58:25Z"
+			"revision": "5dde2b92c83eba95eb05757febc046ee0e53ab38",
+			"revisionTime": "2019-08-13T21:36:00Z"
+		},
+		{
+			"checksumSHA1": "S+Sx2R6tCDH42JCdMoCOx1WXlbY=",
+			"path": "github.com/mat285/slack/server",
+			"revision": "2e5f2accb6ad8e98ee20e48bc5950a2583709d6d",
+			"revisionTime": "2019-08-14T03:08:56Z"
+		},
+		{
+			"checksumSHA1": "J9fVMgEFxlbUTlLfnpvjpHapfFc=",
+			"path": "github.com/mat285/slack/slack",
+			"revision": "5dde2b92c83eba95eb05757febc046ee0e53ab38",
+			"revisionTime": "2019-08-13T21:36:00Z"
 		}
 	],
 	"rootPath": "github.com/mat285/aqi"

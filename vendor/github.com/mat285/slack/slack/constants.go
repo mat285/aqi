@@ -15,6 +15,8 @@ const (
 const (
 	// ResponseTypeInChannel is the in channel response type
 	ResponseTypeInChannel = "in_channel"
+	// ResponseTypeEphemeral is the ephemeral response type
+	ResponseTypeEphemeral = "ephemeral"
 )
 
 const (

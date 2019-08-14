@@ -10,7 +10,7 @@ import (
 	util "github.com/blendlabs/go-util"
 	"github.com/mat285/aqi/pkg/airvisual"
 	"github.com/mat285/aqi/pkg/config"
-	"github.com/mat285/slack"
+	"github.com/mat285/slack/slack"
 )
 
 const (
